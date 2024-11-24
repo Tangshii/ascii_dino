@@ -11,7 +11,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 
 	let cactus1 = AsciiCactus(rowAmount, colAmount-4)
 	let cactus2 = AsciiCactus(rowAmount* 1.5, colAmount-4)
-	let cactusList = [cactus1, cactus2]
+	let cactusList = [cactus1]
 
 	let cloudList = [
 		AsciiCloud(rowAmount), 
@@ -50,15 +50,15 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		}
 
 		paintGroundLine()
-		paintGround()
+		// paintGround()
 		
-		if(frameCount % 16 == 0) {
-			paintSun()
-		}
+		// if(frameCount % 16 == 0) {
+		// 	paintSun()
+		// }
 
-		if(frameCount % 4 == 0) {
-			paintClouds()
-		}
+		// if(frameCount % 4 == 0) {
+		// 	paintClouds()
+		// }
 		
 		paintCatusList()
  
