@@ -9,7 +9,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let asciiGrid = AsciiGrid(rowAmount, colAmount);
 	let dino = AsciiDino(3, colAmount-6);
 
-	let cactus1 = AsciiCactus(rowAmount, colAmount-4)
+	let cactus1 = AsciiCactus(rowAmount *      2      , colAmount-4)
 	let cactus2 = AsciiCactus(rowAmount* 1.5, colAmount-4)
 	let cactusList = [cactus1]
 
@@ -153,7 +153,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		for(let cactus of cactusList) {
 			paintWithLineBreak(cactus.cactusEmptyString, cactus.x, cactus.y)
 		}
-		cactus1.x = rowAmount
+		cactus1.x = rowAmount     *     2
 		cactus2.x = rowAmount * 1.5
 		isCollision = false
 		score = 0
