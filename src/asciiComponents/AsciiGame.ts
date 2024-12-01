@@ -32,7 +32,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
            
            `
 
-	
+
 	function getString() {
 		return asciiGrid.getString();
 	}
