@@ -108,7 +108,7 @@
 		font-size: 8px;
 		padding: 0px;
 		margin: 0px;
-		font-family: 'Roboto Mono';
+		font-family: monospace;
 	}
 	:global(html),
 	:global(body) {
