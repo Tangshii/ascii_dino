@@ -31,6 +31,8 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
            
            
            `
+
+	const minCloudSpacing = 50
 		   
 	
 	function getString() {
@@ -66,7 +68,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		paintWithLineBreak(sun.string, sun.x, sun.y,)
 	}
 
-	let cactusNextInteval = generateVariance(rowAmount, -rowAmount/3, 0)
+	let cactusNextInteval = randomNum(60, 120)
 
 	function paintCatusList() {
 		cactusGroupList.forEach((cactusGroup, index) => {
@@ -81,7 +83,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		});
 
 		if(cactusNextInteval <= 0) {
-			cactusNextInteval = generateVariance(rowAmount     /     1, -rowAmount/3, 0)
+			cactusNextInteval = randomNum(60, 120)
 			cactusGroupList.push(AsciiCactusGroup(rowAmount , colAmount-4)) 
 		} else {
 			cactusNextInteval--
@@ -220,7 +222,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		paintWithLineBreak(groundLine.join(""), 0, colAmount-1) //8 is at dino's feet
 	}
 	
-	let cloudNextInteval = generateVariance(rowAmount/2, -rowAmount/3, 0)
+	let cloudNextInteval = randomNum(1, 100)
 
 	function paintClouds() {
 		let every4thFrame = frameCount % 4 == 0
@@ -238,16 +240,13 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 
 		if(every4thFrame) {
 			if(cloudNextInteval <= 0) {
-				cloudNextInteval = generateVariance(rowAmount/2, -rowAmount/3, 0)
+				let variance = randomNum(1, 100)
+				cloudNextInteval = variance
 				cloudList.push(AsciiCloud(rowAmount)) 
 			} else {
 				cloudNextInteval--
 			}
 		}
-	}
-
-	function generateVariance(center: number, lower: number = 0, upper: number = 0) {
-		return center + randomNum(lower, upper)
 	}
 
 	function generateRandomGroundChar() {
