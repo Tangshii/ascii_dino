@@ -32,8 +32,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
            
            `
 
-	const minCloudSpacing = 50
-		   
 	
 	function getString() {
 		return asciiGrid.getString();
