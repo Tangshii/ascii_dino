@@ -1,30 +1,63 @@
-function AsciiCatus(x: number, y: number) {
+function AsciiCatus(x: number = 0, y: number = 0) {
 
-    const cactusString = 
+    const leftString = 
+`(\\|‾|
+ \\| |/)
+  | |/
+--| |--`;
+    const leftShortString = 
+`
+(\\|‾|
+ \\| |/)
+--| |/--`;
+
+const rightString = 
 `  |‾|/)
 (\\| |/
  \\| |
 --| |--`;
-      const cactusEmptyString = 
+
+const rightShortString = 
+`
+  |‾|/) 
+(\\| |/ 
+-\\| |--`
+
+      const emptyString = 
 `              
        
        
       `;
 
-       	const string =
-`---^^^---"""---'''---'‾'---._.--`
+    let string: string
+    switch(randomNum(0,1)) {
+    case 0:
+        string = leftString
+        break;
+    case 1:
+        string = rightString
+        break;
+    case 2:
+        string = leftShortString
+        break;
+    case 3:
+        string = rightShortString
+        break;
+    default:
+        string = rightString
+    }
 
-const cactusEmptyNoLine = 
-`              
-       
-       
-       `;
+    function randomNum(min: number, max: number) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	} 
 
 	return {
+        height: 4,
+        width: 7,
 		x,
         y,
-        cactusString: cactusString,
-        cactusEmptyString: cactusEmptyString
+        string,
+        emptyString
 	};
 }
 

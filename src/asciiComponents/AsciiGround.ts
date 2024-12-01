@@ -14,12 +14,12 @@ function AsciiGround() {
   let string = [];
 
   switch(randomNum(0,30)) {
-    // case 0:
-    //   string = rock
-    //   break;
-    // case 1:
-    //   string = hole
-    //   break;
+    case 0:
+      string = rock
+      break;
+    case 1:
+      string = hole
+      break;
     default: // 3 to 20
       string = flat
   }

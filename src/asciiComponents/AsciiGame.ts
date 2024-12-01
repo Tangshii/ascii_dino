@@ -1,31 +1,25 @@
 import AsciiDino from './AsciiDino';
 import AsciiGrid from './AsciiGrid';
 import AsciiCactus from "./AsciiCactus";
+import AsciiCactusGroup from "./AsciiCactusGroup";
 import AsciiCloud from './AsciiCloud';
 import AsciiSun from './AsciiSun';
 import AsciiGround from './AsciiGround';
 
 function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Function) {
 	let asciiGrid = AsciiGrid(rowAmount, colAmount);
-	let dino = AsciiDino(3, colAmount-6);
-
-	let cactus1 = AsciiCactus(rowAmount *      2      , colAmount-4)
-	let cactus2 = AsciiCactus(rowAmount* 1.5, colAmount-4)
-	let cactusList = [cactus1]
-
-	let cloudList = [
-		AsciiCloud(rowAmount), 
-	]
-
+	let dino = AsciiDino(3, colAmount-5);
 	let sun = AsciiSun(rowAmount, 0)
 
-	const JUMP_MAX = 10;
+	let cactusGroupList = [AsciiCactusGroup(rowAmount , colAmount-4)]
+	let cloudList = [ AsciiCloud(rowAmount) ]
+
 	let jumpCount = 0;
+	let jumpCountMod = 1; 
+	let score = 0;
 	let isCollision = false;
 	let ground: string[] = []
 	let groundLine: string[] = []
-
-	let score = 0;
 
 	let gameOverString =
 `G A M E  O V E R
@@ -37,6 +31,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
            
            
            `
+		   
 	
 	function getString() {
 		return asciiGrid.getString();
@@ -48,51 +43,49 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		if(isCollision) {
 			return
 		}
-
 		paintGroundLine()
-		// paintGround()
-		
-		// if(frameCount % 16 == 0) {
-		// 	paintSun()
-		// }
-
-		// if(frameCount % 4 == 0) {
-		// 	paintClouds()
-		// }
-		
+		paintGround()
+		paintSun()
+		paintClouds()
 		paintCatusList()
- 
 		paintDino()
-
 		checkCollisions()
-
+		paintScore()
 		// updateCallback()
 	}
 	
 	function paintSun() {
 		paintWithLineBreak(sun.emptyString, sun.x, sun.y)
 		if(sun.x > -11) { // 11 to clear frame
-			sun.x--
+			if(frameCount % 24 == 0) {
+				sun.x--
+			}
 		} else {
 			sun.x = rowAmount
-			score++
-			paintScore()
 		}
 		paintWithLineBreak(sun.string, sun.x, sun.y,)
 	}
 
+	let cactusNextInteval = generateVariance(rowAmount, -rowAmount/3, 0)
+
 	function paintCatusList() {
-		for(let cactus of cactusList) {
-			paintWithLineBreak(cactus.cactusEmptyString, cactus.x, cactus.y)
-			if(cactus.x > - 6) { // 6 to clear frame
-				cactus.x--
-			} else {
-				cactus.x = rowAmount
+		cactusGroupList.forEach((cactusGroup, index) => {
+			paintWithLineBreak(cactusGroup.emptyString , cactusGroup.x, cactusGroup.y)
+			if(cactusGroup.x > -cactusGroup.rowCount) { 
+				cactusGroup.x--
+				paintWithLineBreak(cactusGroup.string, cactusGroup.x, cactusGroup.y,)
+			} else { 
 				score++
-				paintScore()
+				cactusGroupList.splice(index,1) // remove
 			}
-			paintWithLineBreak(cactus.cactusString, cactus.x, cactus.y,)
-		};
+		});
+
+		if(cactusNextInteval <= 0) {
+			cactusNextInteval = generateVariance(rowAmount     /     1, -rowAmount/3, 0)
+			cactusGroupList.push(AsciiCactusGroup(rowAmount , colAmount-4)) 
+		} else {
+			cactusNextInteval--
+		}
 	}
 
 	function paintScore() {
@@ -106,38 +99,70 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 
 	function paintDino() {
 		let isJumping = dino.y + 5 < colAmount;
-		if(frameCount % 3 == 0 && isJumping) { // is jumping
-			paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
-			if(jumpCount > 0 && jumpCount < JUMP_MAX) {
-				// going up
-				jumpCount++
-				dino.y--
-			} else {
-				// going down
-				jumpCount = 0
-				dino.y++
-			}	
-			paintWithLineBreak(dino.dinoString, dino.x, dino.y)
+		if(isJumping) { 
+			paintJumpingDino()
 		} else {
+			jumpCount = 0
 			if(dino.leftLegBent) {
 				paintWithLineBreak(dino.dinoStringLeft, dino.x, dino.y)
 			} else {
 				paintWithLineBreak(dino.dinoStringRight, dino.x, dino.y)
 			}
+			paintWithLineBreak("--", 3, colAmount-1 ) // paint lines behind dino
 			if(frameCount % 12 == 0) {
 				dino.leftLegBent = !dino.leftLegBent
 			}
 		}
-		paintLinesUnderDino(isJumping )
 	}
 
-	function paintLinesUnderDino(isJumping: boolean) {
-		// if(isJumping) {
-			// asciiGrid.replaceStringAt2d("-----", 3, colAmount-1)
-		// } else {
-			paintWithLineBreak("--", 3, colAmount-1 )
-		// }
+	function paintJumpingDino() {
+		paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
+		jumpCount++
+		if(jumpCount % jumpCountMod == 0) {
+			if(jumpCount < 5) {
+				jumpCountMod = 1
+				dino.y--
+			} else if (jumpCount < 8) {
+				jumpCountMod = 1
+				dino.y--
+			} else if (jumpCount < 16) {
+				jumpCountMod = 4
+				dino.y--
+			} else if (jumpCount < 20) {
+				jumpCountMod = 6
+				dino.y--
+			}else if (jumpCount < 24) {
+				jumpCountMod = 6
+				dino.y++
+			} else if (jumpCount < 28) {
+				jumpCountMod = 4
+				dino.y++
+			} else if (jumpCount < 32) {
+				jumpCountMod = 3
+				dino.y++
+			}else {
+				jumpCountMod = 2
+				dino.y++
+			}
+		}
+		paintWithLineBreak(dino.dinoString, dino.x, dino.y)
 	}
+
+	// function paintJumpingDino() {
+	// 	paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
+	// 	if(frameCount % 2 == 0) {
+	// 		if(jumpCount > 0 && jumpCount < 11) {
+	// 			// going up
+	// 			jumpCount++
+	// 			dino.y--
+	// 		} else {
+	// 			// going down
+	// 			jumpCount = 0
+	// 			dino.y++
+	// 		}	
+	// 	}
+	// 	paintWithLineBreak(dino.dinoString, dino.x, dino.y)
+	// }
 
 	function dinoJump() {
 		if(isCollision) {
@@ -150,15 +175,14 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	}
 
 	function restartGame() {
-		for(let cactus of cactusList) {
-			paintWithLineBreak(cactus.cactusEmptyString, cactus.x, cactus.y)
+		for(let cactusGroup of cactusGroupList) {
+			paintWithLineBreak(cactusGroup.emptyString, cactusGroup.x, cactusGroup.y)
 		}
-		cactus1.x = rowAmount     *     2
-		cactus2.x = rowAmount * 1.5
+		cactusGroupList = []
 		isCollision = false
 		score = 0
 		for (let i = 0; i < rowAmount; i++) {
-			asciiGrid.replaceCharAt2d(' ', i, 0);
+			asciiGrid.replaceCharAt2d(' ', i, 0); // clear score row
 		}
 		paintScore()
 		asciiGrid.replaceStringAt2dWithLineBrake(gameOverEmptyString, rowAmount/2-1-8, colAmount/2-1)
@@ -167,8 +191,8 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 
 	function checkCollisions() {
 		let dinoCoords = getCoordsList(dino.dinoString, dino.x, dino.y)
-		cactusList.forEach((cactus) => {
-			let cactusCoords = getCoordsList(cactus.cactusString, cactus.x, cactus.y)
+		cactusGroupList.forEach((cactusGroup) => {
+			let cactusCoords = getCoordsList(cactusGroup.string, cactusGroup.x, cactusGroup.y)
 			if(containsAny(cactusCoords, dinoCoords)) {
 				isCollision = true;
 				paintWithLineBreak(dino.dinoString, dino.x, dino.y) // paint dino so he's on top of cactus
@@ -176,16 +200,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 				asciiGrid.replaceStringAt2dWithLineBrake(gameOverString, rowAmount/2-1-8, colAmount/2-1)
 			}
 		})
-		// cloudList.forEach((cloud) => {
-		// 	if(cloud.isVisible) {
-		// 		let cloudCoords = getCoordsList(cloud.string, cloud.x, cloud.y)
-		// 		if(containsAny(cloudCoords, dinoCoords)) {
-		// 			cloud.isVisible = false
-		// 			score++
-		// 			paintScore()
-		// 		}
-		// 	}
-		// })
 	}
 
 	function paintGround() {
@@ -209,25 +223,27 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let cloudNextInteval = generateVariance(rowAmount/2, -rowAmount/3, 0)
 
 	function paintClouds() {
+		let every4thFrame = frameCount % 4 == 0
 		cloudList.forEach((cloud, index) => {
 			paintWithLineBreak(cloud.emptyString , cloud.x, cloud.y)
-			if(cloud.x > -11) { // 6 to clear frame
-				cloud.x--
-			} else { 
-				cloudList.splice(index,1) // remove
+			if(every4thFrame) {
+				if(cloud.x > -11) { // 6 to clear frame
+					cloud.x--
+				} else { 
+					cloudList.splice(index,1) // remove
+				}
 			}
-			if(cloud.isVisible) {
-				paintWithLineBreak(cloud.string, cloud.x, cloud.y,)
-			}
+			paintWithLineBreak(cloud.string, cloud.x, cloud.y)
 		});
 
-		if(cloudNextInteval <= 0) {
-			cloudNextInteval = generateVariance(rowAmount/2, -rowAmount/3, 0)
-			cloudList.push(AsciiCloud(rowAmount)) 
-		} else {
-			cloudNextInteval--
+		if(every4thFrame) {
+			if(cloudNextInteval <= 0) {
+				cloudNextInteval = generateVariance(rowAmount/2, -rowAmount/3, 0)
+				cloudList.push(AsciiCloud(rowAmount)) 
+			} else {
+				cloudNextInteval--
+			}
 		}
-
 	}
 
 	function generateVariance(center: number, lower: number = 0, upper: number = 0) {
@@ -262,8 +278,9 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 			if(char === "\n") {
 				dervY++;
 				dervX = x;
-			}else if(char === " ") {
-				
+			}
+			else if(char === " ") {
+				// do not count as collsion if white space
 			} else {
 				coords.push( dervX + "-" + dervY)
 			}

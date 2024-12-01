@@ -3,7 +3,7 @@
 </script>
 
 <main>
-	<AsciiDriver rowAmount={64} colAmount={16}></AsciiDriver>
+	<AsciiDriver/>
 </main>
 
 <style>
