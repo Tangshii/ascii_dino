@@ -56,7 +56,9 @@
 				window.requestAnimationFrame(loop);
 				gameStarted = true;
 			}
-			asciiGame.jump();
+			if(asciiGame.jump()) {
+				jumpAudio.play()
+			}
 		}
 
 		asciiGame.paintInitialDino()
@@ -75,11 +77,13 @@
 		document.body.removeChild(testElement);
 		return Math.floor(screenWidth / charWidth)*4;
 	}
+	let jumpAudio
 	
 </script>
 
 <main>
 	<pre class="unselectable">{string}</pre>
+	<audio src="src/lib/sounds/dinoJump.mp3" bind:this={jumpAudio}></audio>
 </main>
 
 <style>

@@ -9,10 +9,13 @@ import AsciiGround from './AsciiGround';
 function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Function) {
 	let asciiGrid = AsciiGrid(rowAmount, colAmount);
 	let dino = AsciiDino(3, colAmount-5);
-	let sun = AsciiSun(rowAmount, 0)
+	let sun = AsciiSun(rowAmount + (rowAmount / 24), 0) // so that sun appears when ground loads
 
-	let cactusGroupList = [AsciiCactusGroup(rowAmount , colAmount-4)]
-	let cloudList = [ AsciiCloud(rowAmount) ]
+	let cactusGroupList = [AsciiCactusGroup(-50 , colAmount-4)] // so that first cactus does not show 
+	let cloudList = [ AsciiCloud(-50) ]
+
+	let cactusNextInteval = rowAmount
+	let cloudNextInteval = rowAmount/4
 
 	let jumpCount = 0;
 	let jumpCountMod = 1; 
@@ -65,8 +68,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		}
 		paintWithLineBreak(sun.string, sun.x, sun.y,)
 	}
-
-	let cactusNextInteval = randomNum(60, 120)
 
 	function paintCatusList() {
 		cactusGroupList.forEach((cactusGroup, index) => {
@@ -165,6 +166,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	// }
 
 	function dinoJump() {
+		let isJumping = dino.y + 5 < colAmount;
 		if(isCollision) {
 			restartGame()
 		}
@@ -172,6 +174,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		dino.y -= 1;
 		jumpCount++;
 		paintWithLineBreak(dino.dinoString, dino.x, dino.y)
+		return !isJumping; // return true if we are on the ground
 	}
 
 	function restartGame() {
@@ -220,8 +223,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		paintWithLineBreak(groundLine.join(""), 0, colAmount-1) //8 is at dino's feet
 	}
 	
-	let cloudNextInteval = randomNum(20, 100)
-
 	function paintClouds() {
 		let every4thFrame = frameCount % 4 == 0
 		cloudList.forEach((cloud, index) => {
