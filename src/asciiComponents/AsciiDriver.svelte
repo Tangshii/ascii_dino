@@ -16,30 +16,15 @@
 			string = asciiGame.getString();
 		}
 
-		// let screenWidth = window.screen.width;
-		// if(window.screen.height > screenWidth ) {
-		// 	screenWidth = window.screen.height
-		// }
-
-		let screenWidth = window.screen.height;
-
-		console.log("screenWidth: " + screenWidth);
-
+		// const num = parseInt(document.body.style.fontSize );
 		document.body.style.fontSize = "8px"
-		let currentFontSize = document.body.style.fontSize ;
-		const num = parseInt(currentFontSize); // num = 123
-		console.log("currentFontSize: " + num);
-
-		let newFontSize = Math.floor(screenWidth / 100) + "px"
+		let newFontSize = Math.floor(window.screen.height / 100) + "px"
 		document.body.style.fontSize = newFontSize
-		console.log("NEW currentFontSize: " + newFontSize);
 
 		let rowCharCount = Math.floor(getCharsPerLine()*.96);
-		console.log("rowCharCount before: " + rowCharCount);
 		if(rowCharCount % 2 != 0) {
 			rowCharCount--
 		}
-		console.log("rowCharCount: " + rowCharCount);
 		
 		let asciiGame = AsciiGame(rowCharCount, 16, updateCallback);
 
@@ -133,7 +118,13 @@
 		font-display: swap;
 		font-weight: 400;
 		src: url($lib/fonts/Cousine-Regular.ttf);
-		unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+	}
 
+	@font-face {
+		font-family: 'SourceCode';
+		font-style: normal;
+		font-display: swap;
+		font-weight: 400;
+		src: url($lib/fonts/SourceCodePro-VariableFont_wght.ttf);
 	}
 </style>

@@ -3,20 +3,20 @@ function AsciiDino(x: number, y: number) {
   const OVER_SCORE = '\u203E'
 
   const dinoString = 
-`   ,───,
+`    ___
 .  |• _|
 |\\_/ /
  \\  /\`
   |‾|`;
 
   const dinoStringLeft = 
-`   ,───,
+`    ___
 .  |• _|
 |\\_/ /
  \\  /\`
   \\‾|`;
     const dinoStringRight = 
-`   ,───,
+`    ___
 .  |• _|
 |\\_/ /
  \\  /\`
