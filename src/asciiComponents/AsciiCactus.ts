@@ -1,25 +1,27 @@
 function AsciiCatus(x: number = 0, y: number = 0) {
 
+    const OVER_SCORE = '\u203E'
+
     const leftString = 
-`(\\|‾|
+`(\\|` + OVER_SCORE + `|
  \\| |/)
   | |/
 --| |--`;
     const leftShortString = 
 `
-(\\|‾|
+(\\|` + OVER_SCORE + `|
  \\| |/)
 --| |/--`;
 
 const rightString = 
-`  |‾|/)
+`  |` + OVER_SCORE + `|/)
 (\\| |/
  \\| |
 --| |--`;
 
 const rightShortString = 
 `
-  |‾|/) 
+  |` + OVER_SCORE + `|/) 
 (\\| |/ 
 -\\| |--`
 
