@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AsciiGame from './AsciiGame';
 	import { onMount } from 'svelte';
+	import jumpMp3 from '$lib/sounds/jump.mp3'; 
 
 	const minFontPx = 2
 	const maxFontPx = 20
@@ -11,6 +12,7 @@
 	// $: string = asciiGame.getString();
 
 	onMount(() => {
+		let jumpAudio = new Audio(jumpMp3)
 
 		function updateCallback() {
 			string = asciiGame.getString();
@@ -77,13 +79,11 @@
 		document.body.removeChild(testElement);
 		return Math.floor(screenWidth / charWidth)*4;
 	}
-	let jumpAudio
 	
 </script>
 
 <main>
 	<pre class="unselectable">{string}</pre>
-	<audio src="src/lib/sounds/dinoJump.mp3" bind:this={jumpAudio}></audio>
 </main>
 
 <style>
