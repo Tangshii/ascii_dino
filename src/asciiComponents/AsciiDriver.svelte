@@ -1,6 +1,8 @@
 <script lang="ts">
 	import AsciiGame from './AsciiGame';
 	import { onMount } from 'svelte';
+	import '@fontsource/mononoki';
+	import '@fontsource/monofett';
 
 	const minFontPx = 2
 	const maxFontPx = 20
@@ -79,7 +81,7 @@
 	});
 
 	function getCharsPerLine() {
-		const testElement = document.createElement('span');
+		const testElement = document.createElement('pre');
 		testElement.style.position = 'absolute';
 		testElement.style.visibility = 'hidden';
 		testElement.style.whiteSpace = 'nowrap';
@@ -104,7 +106,6 @@
 		font-size: 8px;
 		padding: 0px;
 		margin: 0px;
-		font-family: 'Cousine', monospace;
 	}
 	:global(html),
 	:global(body) {
@@ -124,13 +125,15 @@
 		line-height: 1.2em;
 		padding: 0px;
 		margin: 1em;
+		font-family: "Cousine";
+
 	}
 	@font-face {
 		font-family: 'Cousine';
 		font-style: normal;
 		font-display: swap;
 		font-weight: 400;
-		src: url($lib/fonts/Cousine-Regular.ttf);
+		src: url(src/lib/fonts/Cousine-Regular.ttf);
 		unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 
 	}

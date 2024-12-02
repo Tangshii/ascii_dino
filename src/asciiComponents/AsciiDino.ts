@@ -7,20 +7,20 @@ function AsciiDino(x: number, y: number) {
 .  |• _|
 |\\_/ /
  \\  /\`
-  |` + OVER_SCORE + `|`;
+  |‾|`;
 
   const dinoStringLeft = 
 `   ,───,
 .  |• _|
 |\\_/ /
  \\  /\`
-  \\` + OVER_SCORE + `|`;
+  \\‾|`;
     const dinoStringRight = 
 `   ,───,
 .  |• _|
 |\\_/ /
  \\  /\`
-  |` + OVER_SCORE + `\\`;
+  |‾\\`;
     const dinoEmptyString = 
 `        
         
