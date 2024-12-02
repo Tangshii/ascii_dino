@@ -220,7 +220,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		paintWithLineBreak(groundLine.join(""), 0, colAmount-1) //8 is at dino's feet
 	}
 	
-	let cloudNextInteval = randomNum(1, 100)
+	let cloudNextInteval = randomNum(20, 100)
 
 	function paintClouds() {
 		let every4thFrame = frameCount % 4 == 0
@@ -238,7 +238,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 
 		if(every4thFrame) {
 			if(cloudNextInteval <= 0) {
-				let variance = randomNum(1, 100)
+				let variance = randomNum(20, 100)
 				cloudNextInteval = variance
 				cloudList.push(AsciiCloud(rowAmount)) 
 			} else {

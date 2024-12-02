@@ -54,10 +54,6 @@
 			window.requestAnimationFrame(loop);
 		}
 
-
-		window.requestAnimationFrame(loop);
-
-
 		document.addEventListener('keydown', (event) => {
 			callJump()
 		});
@@ -72,7 +68,7 @@
 
 		function callJump() {
 			if(!gameStarted) {
-				// window.requestAnimationFrame(loop);
+				window.requestAnimationFrame(loop);
 				gameStarted = true;
 			}
 			asciiGame.jump();
@@ -85,13 +81,13 @@
 	function getCharsPerLine() {
 		const testElement = document.createElement('span');
 		testElement.style.position = 'absolute';
-		testElement.style.visibility = 'hidden';
+		// testElement.style.visibility = 'hidden';
 		testElement.style.whiteSpace = 'nowrap';
 		testElement.innerText = 'MMMM';
 		document.body.appendChild(testElement);
 		const charWidth = testElement.offsetWidth;
 		const screenWidth = window.innerWidth;
-		document.body.removeChild(testElement);
+		// document.body.removeChild(testElement);
 		return Math.floor(screenWidth / charWidth)*4;
 	}
 	
@@ -108,7 +104,7 @@
 		font-size: 8px;
 		padding: 0px;
 		margin: 0px;
-		font-family: monospace;
+		font-family: 'Cousine', monospace;
 	}
 	:global(html),
 	:global(body) {
@@ -128,5 +124,12 @@
 		line-height: 1.2em;
 		padding: 0px;
 		margin: 1em;
+	}
+	@font-face {
+		font-family: 'Cousine';
+		font-style: normal;
+		font-display: swap;
+		font-weight: 400;
+		src: url($lib/fonts/Cousine-Regular.ttf);
 	}
 </style>
