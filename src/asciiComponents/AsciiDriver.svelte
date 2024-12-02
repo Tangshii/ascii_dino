@@ -1,8 +1,6 @@
 <script lang="ts">
 	import AsciiGame from './AsciiGame';
 	import { onMount } from 'svelte';
-	import '@fontsource/mononoki';
-	import '@fontsource/monofett';
 
 	const minFontPx = 2
 	const maxFontPx = 20
@@ -128,6 +126,7 @@
 		font-family: "Cousine";
 
 	}
+	
 	@font-face {
 		font-family: 'Cousine';
 		font-style: normal;
