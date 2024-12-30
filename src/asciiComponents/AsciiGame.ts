@@ -21,7 +21,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let jumpCountMod = 1; 
 	let score = 0;
 	let isCollision = false;
-	let isCollisionTime = Date.now();
+	let isCollisionTime = 0;
 	let ground: string[] = []
 	let groundLine: string[] = []
 
