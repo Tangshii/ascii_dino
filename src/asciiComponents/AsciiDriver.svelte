@@ -37,7 +37,6 @@
 		function loop() {
 			let currentTime = Date.now();
 			let elapsedTime = currentTime - lastFrameTime;
-			console.log("elapsedTime: " + elapsedTime);
 			
 			if(elapsedTime >= FPS_INTERVAL) {
 				frameCount++;
