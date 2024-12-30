@@ -35,7 +35,7 @@
 		let frameCount = 0;
 		let lastFrameTime = 0;
 		function loop() {
-			let currentTime = Date.now();
+			let currentTime = new Date().getTime();
 			let elapsedTime = currentTime - lastFrameTime;
 			
 			if(elapsedTime >= FPS_INTERVAL) {
