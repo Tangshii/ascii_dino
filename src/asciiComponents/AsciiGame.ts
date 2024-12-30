@@ -21,10 +21,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let jumpCountMod = 1; 
 	let score = 0;
 	let isCollision = false;
-<<<<<<< HEAD
-	let isCollisionTime = 0;
-=======
->>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 	let ground: string[] = []
 	let groundLine: string[] = []
 
@@ -182,13 +178,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	}
 
 	function restartGame() {
-<<<<<<< HEAD
-		// if(Date.now() - isCollisionTime < 1000) {
-		// 	return
-		// } 
-
-=======
->>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 		for(let cactusGroup of cactusGroupList) {
 			paintWithLineBreak(cactusGroup.emptyString, cactusGroup.x, cactusGroup.y)
 		}
@@ -209,10 +198,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 			let cactusCoords = getCoordsList(cactusGroup.string, cactusGroup.x, cactusGroup.y)
 			if(containsAny(cactusCoords, dinoCoords)) {
 				isCollision = true;
-<<<<<<< HEAD
-				// isCollisionTime = Date.now();
-=======
->>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 				paintWithLineBreak(dino.dinoString, dino.x, dino.y) // paint dino so he's on top of cactus
 				asciiGrid.replaceCharAt2d("⚬", dino.x + 4, dino.y + 1 ) // paint dead eyeball
 				asciiGrid.replaceStringAt2dWithLineBrake(gameOverString, rowAmount/2-1-8, colAmount/2-1)
