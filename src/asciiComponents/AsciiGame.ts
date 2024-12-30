@@ -21,6 +21,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let jumpCountMod = 1; 
 	let score = 0;
 	let isCollision = false;
+	let isCollisionTime = 0;
 	let ground: string[] = []
 	let groundLine: string[] = []
 
@@ -70,6 +71,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	}
 
 	function paintCatusList() {
+		let cactiToDeleteIndex: number[] = []
 		cactusGroupList.forEach((cactusGroup, index) => {
 			paintWithLineBreak(cactusGroup.emptyString , cactusGroup.x, cactusGroup.y)
 			if(cactusGroup.x > -cactusGroup.rowCount) { 
@@ -77,8 +79,12 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 				paintWithLineBreak(cactusGroup.string, cactusGroup.x, cactusGroup.y,)
 			} else { 
 				score++
-				cactusGroupList.splice(index,1) // remove
+				cactiToDeleteIndex.push(index);
 			}
+		});
+
+		cactiToDeleteIndex.forEach(index => {
+			cactusGroupList.splice(index,1) // remove
 		});
 
 		if(cactusNextInteval <= 0) {
@@ -168,13 +174,16 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	function dinoJump() {
 		let isJumping = dino.y + 5 < colAmount;
 		if(isCollision) {
-			restartGame()
+			if(new Date().getTime() - isCollisionTime > 1000) {
+				restartGame() 
+			}
+		} else {
+			paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
+			dino.y -= 1;
+			jumpCount++;
+			paintWithLineBreak(dino.dinoString, dino.x, dino.y)
 		}
-		paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
-		dino.y -= 1;
-		jumpCount++;
-		paintWithLineBreak(dino.dinoString, dino.x, dino.y)
-		return !isJumping; // return true if we are on the ground
+		return !isJumping && !isCollision; // return true if we are on the ground
 	}
 
 	function restartGame() {
@@ -198,6 +207,7 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 			let cactusCoords = getCoordsList(cactusGroup.string, cactusGroup.x, cactusGroup.y)
 			if(containsAny(cactusCoords, dinoCoords)) {
 				isCollision = true;
+				isCollisionTime = new Date().getTime();
 				paintWithLineBreak(dino.dinoString, dino.x, dino.y) // paint dino so he's on top of cactus
 				asciiGrid.replaceCharAt2d("⚬", dino.x + 4, dino.y + 1 ) // paint dead eyeball
 				asciiGrid.replaceStringAt2dWithLineBrake(gameOverString, rowAmount/2-1-8, colAmount/2-1)
