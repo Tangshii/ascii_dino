@@ -20,8 +20,8 @@
 
 		// const num = parseInt(document.body.style.fontSize );
 		document.body.style.fontSize = "8px"
-		let shortestSide = Math.min(window.screen.height, window.screen.width)
-		let newFontSize = Math.floor(shortestSide / 100) + "px"
+		// let shortestSide = Math.min(window.screen.height, window.screen.width)
+		let newFontSize = Math.floor(window.screen.height / 100) + "px"
 		document.body.style.fontSize = newFontSize
 
 		let rowCharCount = Math.floor(getCharsPerLine()*.96);
