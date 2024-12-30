@@ -30,11 +30,9 @@
 		
 		let asciiGame = AsciiGame(rowCharCount, 16, updateCallback);
 
-		const FPS = 60;
-		const FPS_INTERVAL = 1000 / FPS;
 		let frameCount = 0;
-		let lastFrameTime = 0;
 		function loop() {
+<<<<<<< HEAD
 			// let currentTime = Date.now();
 			// let elapsedTime = currentTime - lastFrameTime;
 			
@@ -50,6 +48,14 @@
         	// Also, adjust for fpsInterval not being multiple of 16.67
 			// from stack overflow
 			// lastFrameTime = currentTime - (elapsedTime % FPS_INTERVAL);
+=======
+			frameCount++;
+			asciiGame.onTick(frameCount);
+			string = asciiGame.getString();
+			if(frameCount >= Number.MAX_VALUE) { // reset just in case
+				frameCount = 0;
+			}
+>>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 			window.requestAnimationFrame(loop);
 		}
 

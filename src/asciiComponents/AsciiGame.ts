@@ -21,7 +21,10 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	let jumpCountMod = 1; 
 	let score = 0;
 	let isCollision = false;
+<<<<<<< HEAD
 	let isCollisionTime = 0;
+=======
+>>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 	let ground: string[] = []
 	let groundLine: string[] = []
 
@@ -71,7 +74,6 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 	}
 
 	function paintCatusList() {
-		let cactiToDeleteIndex: number[] = []
 		cactusGroupList.forEach((cactusGroup, index) => {
 			paintWithLineBreak(cactusGroup.emptyString , cactusGroup.x, cactusGroup.y)
 			if(cactusGroup.x > -cactusGroup.rowCount) { 
@@ -79,12 +81,8 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 				paintWithLineBreak(cactusGroup.string, cactusGroup.x, cactusGroup.y,)
 			} else { 
 				score++
-				cactiToDeleteIndex.push(index);
+				cactusGroupList.splice(index,1) // remove
 			}
-		});
-
-		cactiToDeleteIndex.forEach(index => {
-			cactusGroupList.splice(index,1) // remove
 		});
 
 		if(cactusNextInteval <= 0) {
@@ -175,20 +173,22 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 		let isJumping = dino.y + 5 < colAmount;
 		if(isCollision) {
 			restartGame()
-		} else {
-			paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
-			dino.y -= 1;
-			jumpCount++;
-			paintWithLineBreak(dino.dinoString, dino.x, dino.y)
 		}
-		return !isJumping && !isCollision; // return true if we are on the ground
+		paintWithLineBreak(dino.dinoEmptyString, dino.x, dino.y)
+		dino.y -= 1;
+		jumpCount++;
+		paintWithLineBreak(dino.dinoString, dino.x, dino.y)
+		return !isJumping; // return true if we are on the ground
 	}
 
 	function restartGame() {
+<<<<<<< HEAD
 		// if(Date.now() - isCollisionTime < 1000) {
 		// 	return
 		// } 
 
+=======
+>>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 		for(let cactusGroup of cactusGroupList) {
 			paintWithLineBreak(cactusGroup.emptyString, cactusGroup.x, cactusGroup.y)
 		}
@@ -209,7 +209,10 @@ function AsciiGame(rowAmount: number, colAmount: number, updateCallback: Functio
 			let cactusCoords = getCoordsList(cactusGroup.string, cactusGroup.x, cactusGroup.y)
 			if(containsAny(cactusCoords, dinoCoords)) {
 				isCollision = true;
+<<<<<<< HEAD
 				// isCollisionTime = Date.now();
+=======
+>>>>>>> parent of 24a1ce2 (-Added fps limit to 60 -Fixed bug where first cactus is pushed back when a cactus is removed -Added 1 sec sleep to restart)
 				paintWithLineBreak(dino.dinoString, dino.x, dino.y) // paint dino so he's on top of cactus
 				asciiGrid.replaceCharAt2d("⚬", dino.x + 4, dino.y + 1 ) // paint dead eyeball
 				asciiGrid.replaceStringAt2dWithLineBrake(gameOverString, rowAmount/2-1-8, colAmount/2-1)
